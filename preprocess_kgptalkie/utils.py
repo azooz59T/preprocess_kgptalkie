@@ -10,6 +10,9 @@ from bs4 import BeautifulSoup
 import unicodedata
 from textblob import TextBlob
 
+nlp = spacy.load('en_core_web_sm')
+
+
 def _get_wordcounts(x):
 	length = len(str(x).split())
 	return length
@@ -44,7 +47,7 @@ def _get_uppercase_counts(x):
 def _get_lowercase_counts(x):
 	return str(x).lower()
 
-def _get_count_exp(x):
+def _count_exp(x):
 	contractions = {"aight":"alright","ain't":"am not",
 				"aren't":"are not","can't":"cannot",
 				"cause":"because","could've":"could have",
@@ -167,19 +170,19 @@ def make_base(x):
 		x_list.append(lemma)
 	return ' '.join(x_list)
 
-def reomve_common_words(x, n=20):
-	text = x.split()
-	freq_comm = pd.Series(text).value_counts()
-	fn = freq_comm[:n]
+def _get_value_counts(df, col):
+	text = ' '.join(df[col])
+	text = text.split()
+	freq = pd.Series(text).value_counts()
+	return freq	
 
+def reomve_common_words(x, freq, n=20):
+	fn = freq[:n]
 	x = ' '.join([t for t in x.split() if t not in fn])
 	return x
 
-def reomve_rare_words(x, n=20):
-	text = x.split()
-	freq_comm = pd.Series(text).value_counts()
+def reomve_rare_words(x, freq, n=20):
 	fn = freq_tail(n)
-
 	x = ' '.join([t for t in x.split() if t not in fn])
 	return x
 
