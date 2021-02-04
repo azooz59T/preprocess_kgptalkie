@@ -7,7 +7,7 @@ This python package is prepared by MohamedBayomy
 
 Install
 
-`pip install git+ssh://git@github.com/azooz59T/preprocess_kgptalkie.git
+`pip install git+ssh://git@github.com/azooz59T/preprocess_kgptalkie.git`
 
 Uninstall
 
